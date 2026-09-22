@@ -1,0 +1,7 @@
+.product-img {
+  height: 200px;
+  object-fit: cover;
+}
+body { background: #f8f9fa; }
+.card { transition: transform .15s; }
+.card:hover { transform: translateY(-3px); }

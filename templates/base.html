@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Cloth Store{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">🛍️ ClothStore</a>
+    <div class="ms-auto d-flex align-items-center">
+      <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('orders') }}">Orders</a>
+      <a class="btn btn-warning btn-sm" href="{{ url_for('view_cart') }}">
+        🛒 Cart <span class="badge bg-dark">{{ cart_count or 0 }}</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, msg in messages %}
+      <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endwith %}
+</div>
+
+<div class="container my-4">
+  {% block content %}{% endblock %}
+</div>
+
+<footer class="text-center text-muted py-4">
+  © {{ 2025 }} ClothStore — Demo E-commerce Flask App
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-5">
+    <img src="{{ product.image }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+  </div>
+  <div class="col-md-7">
+    <h3>{{ product.name }}</h3>
+    <p class="text-muted">{{ product.category }}</p>
+    <h4 class="text-primary">${{ '%.2f'|format(product.price) }}</h4>
+    <p>{{ product.description }}</p>
+    <p><strong>Stock:</strong> {{ product.stock }}</p>
+    <form method="post" action="{{ url_for('add_to_cart', pid=product.id) }}" class="row g-2 align-items-center">
+      <div class="col-auto">
+        <label class="col-form-label">Qty:</label>
+      </div>
+      <div class="col-auto">
+        <input type="number" min="1" value="1" name="qty" class="form-control">
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-success">Add to Cart</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

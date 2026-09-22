@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My Orders{% endblock %}
+{% block content %}
+<h2>My Orders</h2>
+{% if orders %}
+  {% for o in orders %}
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between">
+      <span>Order <strong>{{ o.id }}</strong> — {{ o.created_at }}</span>
+      <span>${{ '%.2f'|format(o.total) }}</span>
+    </div>
+    <div class="card-body">
+      <p>{{ o.name }} ({{ o.email }})</p>
+      <ul>
+        {% for item in o.items %}
+          <li>{{ item.name }} × {{ item.qty }} — ${{ '%.2f'|format(item.subtotal) }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <p>No orders yet.</p>
+{% endif %}
+{% endblock %}

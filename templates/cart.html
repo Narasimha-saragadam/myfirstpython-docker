@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+{% if order %}
+  <div class="alert alert-success">
+    <h4>✅ Order placed successfully!</h4>
+    <p>Order ID: <strong>{{ order.id }}</strong></p>
+    <p>Name: {{ order.name }} | Email: {{ order.email }}</p>
+    <p>Total: <strong>${{ '%.2f'|format(order.total) }}</strong></p>
+  </div>
+  <a href="{{ url_for('index') }}" class="btn btn-primary">Continue Shopping</a>
+{% else %}
+  <h2>Your Cart</h2>
+  {% if items %}
+  <table class="table align-middle">
+    <thead>
+      <tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td class="d-flex align-items-center">
+          <img src="{{ item.image }}" style="width:60px;height:60px;object-fit:cover" class="me-2 rounded">
+          {{ item.name }}
+        </td>
+        <td>${{ '%.2f'|format(item.price) }}</td>
+        <td>
+          <form method="post" action="{{ url_for('update_cart', pid=item.id) }}" class="d-flex">
+            <input type="number" name="qty" value="{{ item.qty }}" min="0" class="form-control form-control-sm me-1" style="width:70px">
+            <button class="btn btn-sm btn-outline-secondary">Update</button>
+          </form>
+        </td>
+        <td>${{ '%.2f'|format(item.subtotal) }}</td>
+        <td>
+          <form method="post" action="{{ url_for('remove_from_cart', pid=item.id) }}">
+            <button class="btn btn-sm btn-outline-danger">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr><th colspan="3" class="text-end">Total:</th><th>${{ '%.2f'|format(total) }}</th><th></th></tr>
+    </tfoot>
+  </table>
+  <a href="{{ url_for('checkout') }}" class="btn btn-success">Proceed to Checkout</a>
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">Continue Shopping</a>
+  {% else %}
+  <p>Your cart is empty.</p>
+  <a href="{{ url_for('index') }}" class="btn btn-primary">Shop Now</a>
+  {% endif %}
+{% endif %}
+{% endblock %}
